@@ -1,6 +1,4 @@
 package com.example.bookstore.BookStore.dto.request.book;
-
-import com.example.bookstore.BookStore.entity.Author;
 import lombok.Data;
 
 

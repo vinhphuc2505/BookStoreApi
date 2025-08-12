@@ -4,8 +4,6 @@ package com.example.bookstore.BookStore.service;
 import com.example.bookstore.BookStore.dto.request.BorrowRecord.CreateBorrowRecord;
 import com.example.bookstore.BookStore.dto.request.BorrowRecord.UpdateBorrowRecord;
 import com.example.bookstore.BookStore.dto.response.BorrowRecordResponse;
-import com.example.bookstore.BookStore.entity.BorrowRecord;
-
 import java.util.List;
 
 public interface BorrowRecordService {

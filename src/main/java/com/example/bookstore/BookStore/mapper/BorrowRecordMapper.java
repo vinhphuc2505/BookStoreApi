@@ -32,8 +32,6 @@ public class BorrowRecordMapper {
         if(request == null){
             return null;
         }
-
-        // Lấy thông tin người dùng và sách từ cơ sở dữ liệu thông qua request
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         Book book = bookRepository.findById(request.getBookId())
@@ -47,6 +45,7 @@ public class BorrowRecordMapper {
 
         return borrowRecord;
     }
+
     public BorrowRecordResponse toBorrowRecordResponse(BorrowRecord request){
         if (request == null){
             return null;

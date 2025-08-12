@@ -5,7 +5,6 @@ import com.example.bookstore.BookStore.dto.request.BorrowRecord.CreateBorrowReco
 import com.example.bookstore.BookStore.dto.request.BorrowRecord.UpdateBorrowRecord;
 import com.example.bookstore.BookStore.dto.response.ApiResponse;
 import com.example.bookstore.BookStore.dto.response.BorrowRecordResponse;
-import com.example.bookstore.BookStore.entity.BorrowRecord;
 import com.example.bookstore.BookStore.service.BorrowRecordService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class BorrowRecordController {
     public ApiResponse<String> deleteBorrowRecord(@PathVariable("id") Long id){
         borrowRecordService.deleteBorrowRecord(id);
         return ApiResponse.<String>builder()
-                .code(200)
+                .code(1000)
                 .result("Bill has been deleted")
                 .build();
     }

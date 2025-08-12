@@ -23,14 +23,14 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User Create(CreateUser request) {
+    public UserResponse create(CreateUser request) {
         User user = userMapper.toUser(request);
 
         if(userRepository.existsByEmail(user.getEmail())){
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-
-        return userRepository.save(user);
+        userRepository.save(user);
+        return userMapper.toUserResponse(user);
     }
 
     @Override
@@ -39,15 +39,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse findUser(String id) {
+    public UserResponse findUserById(String id) {
         return userMapper.toUserResponse(userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(ErrorCode.EMAIL_EXISTED.getMessage())));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
+    @Override
+    public UserResponse findUserByEmail(String email){
+        return userMapper.toUserResponse(userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     @Override
     public UserResponse updateUser(String id, UpdateUser request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User id is invalid!"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         userMapper.updateUser(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -55,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String id) {
         userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User id is invalid!"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         userRepository.deleteById(id);
     }
 }

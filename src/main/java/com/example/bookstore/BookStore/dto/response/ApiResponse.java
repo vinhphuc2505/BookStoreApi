@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-    private int code = 1000;
+    private int code;
     private String errorCode;
     private String message;
     private HttpStatus httpStatus;

@@ -13,8 +13,12 @@ public enum ErrorCode {
     EMAIL_EXISTED(1004, "EMAIL_EXISTED", "Email existed", HttpStatus.NOT_FOUND),
     USER_NOT_EXISTED(1005, "USER_NOT_EXISTED", "User not existed", HttpStatus.NOT_FOUND),
     BOOK_NOT_EXISTED(1006, "BOOK_NOT_EXISTED", "Book not existed", HttpStatus.NOT_FOUND),
-    BORROW_RECORD_NOT_EXISTED(1007, "BORROW_RECORD_NOT_EXISTED", "Borrow record not existed", HttpStatus.NOT_FOUND),
-
+    BOOK_EXISTED(1007, "BOOK_EXISTED", "Book existed", HttpStatus.NOT_FOUND),
+    BORROW_RECORD_NOT_EXISTED(1008, "BORROW_RECORD_NOT_EXISTED", "Borrow record not existed", HttpStatus.NOT_FOUND),
+    AUTHOR_EXISTED(1009, "AUTHOR_EXISTED", "Author existed", HttpStatus.NOT_FOUND),
+    AUTHOR_NOT_EXISTED(1010, "AUTHOR_NOT_EXISTED", "Author not existed", HttpStatus.NOT_FOUND),
+    BOOK_UNAVAILABLE(1011, "BOOK_UNAVAILABLE","This book is unavailable.", HttpStatus.NOT_FOUND),
+    YOU_HAVE_BORROWED(1012, "YOU_HAVE_BORROWED", "You have borrowed this book", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String errorCode, String message, HttpStatus httpStatus) {
