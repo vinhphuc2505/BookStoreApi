@@ -15,8 +15,9 @@ import com.example.bookstore.BookStore.repository.UserRepository;
 import com.example.bookstore.BookStore.service.BorrowRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -32,6 +33,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 
 
     @Override
+    @Transactional
     public BorrowRecordResponse create(CreateBorrowRecord request) {
 
         Book book = bookRepository.findById(request.getBookId())
@@ -74,12 +76,35 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
     }
 
     @Override
+    @Transactional
     public BorrowRecordResponse updateBorrowRecord(Long id, UpdateBorrowRecord request) {
         BorrowRecord borrowRecord = borrowRecordRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED));
-        borrowRecordMapper.updateBorrowRecord(borrowRecord, request);
 
-        return borrowRecordMapper.toBorrowRecordResponse(borrowRecordRepository.save(borrowRecord));
+        Book book = borrowRecord.getBookId();
+        boolean currentReturned = borrowRecord.isReturned();
+        boolean newReturned = request.isReturned();
+        System.out.println(request.isReturned());
+        System.out.println(request.getReturnDate());
+
+        if(!currentReturned && !newReturned && !Objects.equals(borrowRecord.getReturnDate(), request.getReturnDate())){
+
+            borrowRecordMapper.updateBorrowRecord(borrowRecord, request);
+            return borrowRecordMapper.toBorrowRecordResponse(borrowRecordRepository.save(borrowRecord));
+
+        }else if(currentReturned && !newReturned){
+            throw new AppException(ErrorCode.CANNOT_CHANGE_STATUS);
+        }else {
+
+            int newQuantity = book.getQuantity() + 1;
+            book.setQuantity(newQuantity);
+            book.setAvailable(newQuantity > 0);
+            bookRepository.save(book);
+
+            borrowRecordMapper.updateBorrowRecord(borrowRecord, request);
+
+            return borrowRecordMapper.toBorrowRecordResponse(borrowRecordRepository.save(borrowRecord));
+        }
     }
 
     @Override

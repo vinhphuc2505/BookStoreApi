@@ -19,6 +19,7 @@ public enum ErrorCode {
     AUTHOR_NOT_EXISTED(1010, "AUTHOR_NOT_EXISTED", "Author not existed", HttpStatus.NOT_FOUND),
     BOOK_UNAVAILABLE(1011, "BOOK_UNAVAILABLE","This book is unavailable.", HttpStatus.NOT_FOUND),
     YOU_HAVE_BORROWED(1012, "YOU_HAVE_BORROWED", "You have borrowed this book", HttpStatus.NOT_FOUND),
+    CANNOT_CHANGE_STATUS(1013, "CANNOT_CHANGE_STATUS", "Can not change status", HttpStatus.NOT_FOUND)
     ;
 
     ErrorCode(int code, String errorCode, String message, HttpStatus httpStatus) {

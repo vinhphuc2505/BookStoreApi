@@ -27,12 +27,12 @@ public class Book {
     @Column(name = "isAvailable")
     private boolean isAvailable = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "authorId", nullable = false)
     @JsonBackReference
     private Author authorId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bookId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<BorrowRecord> borrowRecordList = new ArrayList<>();
 

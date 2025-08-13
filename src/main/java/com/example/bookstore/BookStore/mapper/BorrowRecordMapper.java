@@ -54,8 +54,10 @@ public class BorrowRecordMapper {
         UserResponse userResponse = userMapper.toUserResponse(request.getUserId());
 
         BorrowRecordResponse borrowRecordResponse = new BorrowRecordResponse();
+
         borrowRecordResponse.setUser(userResponse);
         borrowRecordResponse.setBook(request.getBookId());
+        borrowRecordResponse.setBorrowDate(request.getBorrowDate());
         borrowRecordResponse.setReturnDate(request.getReturnDate());
         borrowRecordResponse.setReturned(request.isReturned());
 

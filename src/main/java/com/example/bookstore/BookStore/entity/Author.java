@@ -22,7 +22,7 @@ public class Author {
     @Column(name = "dob")
     private LocalDate dob;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "authorId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "authorId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Book> books = new ArrayList<>();
 

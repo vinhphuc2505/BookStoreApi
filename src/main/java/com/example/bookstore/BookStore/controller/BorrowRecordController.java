@@ -20,30 +20,34 @@ public class BorrowRecordController {
 
     @PostMapping()
     public ApiResponse<BorrowRecordResponse> createBorrowRecord(@RequestBody @Valid CreateBorrowRecord request){
-        ApiResponse<BorrowRecordResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(borrowRecordService.create(request));
-        return apiResponse;
+        return ApiResponse.<BorrowRecordResponse>builder()
+                .code(1000)
+                .result(borrowRecordService.create(request))
+                .build();
     }
 
     @GetMapping()
     public ApiResponse<List<BorrowRecordResponse>> getBorrowRecord(){
-        ApiResponse<List<BorrowRecordResponse>> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(borrowRecordService.getBorrowRecord());
-        return apiResponse;
+        return ApiResponse.<List<BorrowRecordResponse>>builder()
+                .code(1000)
+                .result(borrowRecordService.getBorrowRecord())
+                .build();
     }
 
     @GetMapping("/{id}")
     public ApiResponse<BorrowRecordResponse> findBorrowRecord(@PathVariable("id") Long id){
-        ApiResponse<BorrowRecordResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(borrowRecordService.findBorrowRecord(id));
-        return apiResponse;
+        return ApiResponse.<BorrowRecordResponse>builder()
+                .code(1000)
+                .result(borrowRecordService.findBorrowRecord(id))
+                .build();
     }
 
     @PutMapping("/{id}")
     public ApiResponse<BorrowRecordResponse> updateBorrowRecord(@PathVariable("id") Long id, UpdateBorrowRecord request){
-        ApiResponse<BorrowRecordResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(borrowRecordService.updateBorrowRecord(id, request));
-        return apiResponse;
+        return ApiResponse.<BorrowRecordResponse>builder()
+                .code(1000)
+                .result(borrowRecordService.updateBorrowRecord(id, request))
+                .build();
     }
 
     @DeleteMapping("/{id}")
@@ -54,7 +58,6 @@ public class BorrowRecordController {
                 .result("Bill has been deleted")
                 .build();
     }
-
 
 }
 

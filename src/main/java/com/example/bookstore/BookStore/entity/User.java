@@ -34,7 +34,7 @@ public class User {
     @Column(name = "dob")
     private LocalDate dob;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true )
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true )
     @JsonBackReference
     private List<BorrowRecord> borrowRecordList = new ArrayList<>();
 
