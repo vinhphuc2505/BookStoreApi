@@ -7,13 +7,15 @@ import com.example.bookstore.BookStore.dto.response.BorrowRecordResponse;
 import java.util.List;
 
 public interface BorrowRecordService {
-    public BorrowRecordResponse create(CreateBorrowRecord request);
+    BorrowRecordResponse create(CreateBorrowRecord request);
 
-    public List<BorrowRecordResponse> getBorrowRecord();
+    List<BorrowRecordResponse> getBorrowRecord();
 
-    public BorrowRecordResponse findBorrowRecord(Long id);
+    List<BorrowRecordResponse> getByUser();
 
-    public BorrowRecordResponse updateBorrowRecord(Long id, UpdateBorrowRecord request);
+    BorrowRecordResponse findBorrowRecord(Long id);
 
-    public void deleteBorrowRecord(Long id);
+    BorrowRecordResponse updateBorrowRecord(Long id, UpdateBorrowRecord request);
+
+    void deleteBorrowRecord(Long id);
 }

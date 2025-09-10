@@ -43,7 +43,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    private ApiResponse<BookResponse> update(@PathVariable("id") Long id, UpdateBook request){
+    private ApiResponse<BookResponse> update(@PathVariable("id") Long id,
+                                             @RequestBody @Valid UpdateBook request){
         return ApiResponse.<BookResponse>builder()
                 .code(1000)
                 .result(bookService.updateBook(id, request))

@@ -7,13 +7,13 @@ import com.example.bookstore.BookStore.dto.response.BookResponse;
 import java.util.List;
 
 public interface BookService {
-    public BookResponse create(CreateBook request);
+    BookResponse create(CreateBook request);
 
-    public BookResponse findBookByTitle(String title);
+    BookResponse findBookByTitle(String title);
 
-    public List<BookResponse> getBook();
+    List<BookResponse> getBook();
 
-    public BookResponse updateBook(Long id, UpdateBook request);
+    BookResponse updateBook(Long id, UpdateBook request);
 
-    public void deleteBook(Long id);
+    void deleteBook(Long id);
 }

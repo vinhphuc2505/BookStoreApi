@@ -53,7 +53,8 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<AuthorResponse> updateAuthor(@PathVariable("id") Long id, UpdateAuthor request){
+    public ApiResponse<AuthorResponse> updateAuthor(@PathVariable("id") Long id,
+                                                    @RequestBody @Valid UpdateAuthor request){
         return ApiResponse.<AuthorResponse>builder()
                 .code(1000)
                 .result(authorService.updateAuthor(id, request))

@@ -27,7 +27,7 @@ public class AuthorMapper {
         AuthorResponse authorResponse = new AuthorResponse();
         authorResponse.setAuthorName(author.getAuthorName());
         authorResponse.setDob(author.getDob());
-//        authorResponse.setBooks(author.getBooks());
+        authorResponse.setBooks(author.getBooks());
 
         return authorResponse;
     }

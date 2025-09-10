@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Data
 public class CreateBorrowRecord {
-    private String userId;
 
     private Long bookId;
 

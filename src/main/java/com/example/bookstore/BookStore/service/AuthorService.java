@@ -8,15 +8,15 @@ import com.example.bookstore.BookStore.dto.response.AuthorResponse;
 import java.util.List;
 
 public interface AuthorService {
-    public AuthorResponse createAuthor(CreateAuthor createAuthor);
+    AuthorResponse createAuthor(CreateAuthor createAuthor);
 
-    public List<AuthorResponse> getAuthor();
+    List<AuthorResponse> getAuthor();
 
-    public AuthorResponse findAuthor(Long id);
+    AuthorResponse findAuthor(Long id);
 
-    public AuthorResponse findAuthorByName(String name);
+    AuthorResponse findAuthorByName(String name);
 
-    public AuthorResponse updateAuthor(Long id, UpdateAuthor request);
+    AuthorResponse updateAuthor(Long id, UpdateAuthor request);
 
-    public void deleteAuthor(Long id);
+    void deleteAuthor(Long id);
 }

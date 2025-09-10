@@ -14,6 +14,9 @@ import com.example.bookstore.BookStore.repository.BorrowRecordRepository;
 import com.example.bookstore.BookStore.repository.UserRepository;
 import com.example.bookstore.BookStore.service.BorrowRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -34,12 +37,15 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('USER')")
     public BorrowRecordResponse create(CreateBorrowRecord request) {
+
+        var id = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Book book = bookRepository.findById(request.getBookId())
                 .orElseThrow(() -> new AppException(ErrorCode.BOOK_NOT_EXISTED));
 
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         if(borrowRecordRepository.existsByUserIdAndBookId(user, book)){
@@ -59,17 +65,30 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
         bookRepository.save(book);
 
         BorrowRecord borrowRecord = borrowRecordMapper.toBorrowRecord(request);
+        borrowRecord.setUserId(user);
+
         borrowRecordRepository.save(borrowRecord);
 
         return borrowRecordMapper.toBorrowRecordResponse(borrowRecord);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<BorrowRecordResponse> getBorrowRecord() {
         return borrowRecordMapper.toborrowRecordResponseList(borrowRecordRepository.findAll());
     }
 
     @Override
+    public List<BorrowRecordResponse> getByUser() {
+        var id = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        return borrowRecordMapper.toborrowRecordResponseList(borrowRecordRepository.findAllByUserId(user));
+    }
+
+    @Override
+    @PostAuthorize("returnObject.returnObject.userId.userId == authentication.name")
     public BorrowRecordResponse findBorrowRecord(Long id) {
         return borrowRecordMapper.toBorrowRecordResponse(borrowRecordRepository
                 .findById(id).orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED)));
@@ -77,6 +96,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 
     @Override
     @Transactional
+    @PostAuthorize("returnObject.returnObject.userId.userId == authentication.name")
     public BorrowRecordResponse updateBorrowRecord(Long id, UpdateBorrowRecord request) {
         BorrowRecord borrowRecord = borrowRecordRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED));
@@ -108,6 +128,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
     }
 
     @Override
+    @PostAuthorize("returnObject.returnObject.userId.userId == authentication.name")
     public void deleteBorrowRecord(Long id) {
         borrowRecordRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED));

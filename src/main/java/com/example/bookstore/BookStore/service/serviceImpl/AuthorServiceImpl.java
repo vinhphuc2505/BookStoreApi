@@ -10,7 +10,9 @@ import com.example.bookstore.BookStore.mapper.AuthorMapper;
 import com.example.bookstore.BookStore.repository.AuthorRepository;
 import com.example.bookstore.BookStore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class AuthorServiceImpl implements AuthorService {
     private AuthorMapper authorMapper;
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public AuthorResponse createAuthor(CreateAuthor request) {
         if(authorRepository.existsByAuthorName(request.getAuthorName())){
             throw new AppException(ErrorCode.AUTHOR_EXISTED);
@@ -50,6 +54,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public AuthorResponse updateAuthor(Long id, UpdateAuthor request) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.AUTHOR_NOT_EXISTED));
@@ -58,6 +64,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteAuthor(Long id) {
         authorRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.AUTHOR_NOT_EXISTED));

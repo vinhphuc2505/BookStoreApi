@@ -34,6 +34,14 @@ public class BorrowRecordController {
                 .build();
     }
 
+    @GetMapping("/byUser")
+    public ApiResponse<List<BorrowRecordResponse>> getByUser(){
+        return ApiResponse.<List<BorrowRecordResponse>>builder()
+                .code(1000)
+                .result(borrowRecordService.getByUser())
+                .build();
+    }
+
     @GetMapping("/{id}")
     public ApiResponse<BorrowRecordResponse> findBorrowRecord(@PathVariable("id") Long id){
         return ApiResponse.<BorrowRecordResponse>builder()
@@ -43,7 +51,8 @@ public class BorrowRecordController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<BorrowRecordResponse> updateBorrowRecord(@PathVariable("id") Long id, UpdateBorrowRecord request){
+    public ApiResponse<BorrowRecordResponse> updateBorrowRecord(@PathVariable("id") Long id,
+                                                                @RequestBody @Valid UpdateBorrowRecord request){
         return ApiResponse.<BorrowRecordResponse>builder()
                 .code(1000)
                 .result(borrowRecordService.updateBorrowRecord(id, request))

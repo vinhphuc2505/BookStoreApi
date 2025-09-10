@@ -13,7 +13,9 @@ import com.example.bookstore.BookStore.repository.AuthorRepository;
 import com.example.bookstore.BookStore.repository.BookRepository;
 import com.example.bookstore.BookStore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public BookResponse create(CreateBook request) {
         Author author = authorRepository.findById(request.getAuthorId())
                 .orElseThrow(() -> new AppException(ErrorCode.AUTHOR_NOT_EXISTED));
@@ -51,6 +55,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public BookResponse updateBook(Long id, UpdateBook request) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BOOK_NOT_EXISTED));
@@ -59,6 +65,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteBook(Long id) {
         bookRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BOOK_NOT_EXISTED));
 

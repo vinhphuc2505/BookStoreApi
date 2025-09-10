@@ -1,12 +1,13 @@
 package com.example.bookstore.BookStore.dto.response;
 
-
 import lombok.Data;
 import java.time.LocalDate;
 
 @Data
 public class UserResponse {
     private String userId;
+
+    private RoleResponse role;
 
     private String email;
 

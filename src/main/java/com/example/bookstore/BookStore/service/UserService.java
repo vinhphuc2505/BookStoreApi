@@ -7,15 +7,17 @@ import com.example.bookstore.BookStore.dto.response.UserResponse;
 import java.util.List;
 
 public interface UserService {
-    public UserResponse create(CreateUser request);
+    UserResponse create(CreateUser request);
 
-    public List<UserResponse> getUser();
+    List<UserResponse> getUser();
 
-    public UserResponse findUserById(String id);
+    UserResponse findUserById(String id);
 
-    public UserResponse findUserByEmail(String email);
+    UserResponse getMyInfo();
 
-    public UserResponse updateUser(String id, UpdateUser request);
+    UserResponse findUserByEmail(String email);
 
-    public void deleteUser(String id);
+    UserResponse updateUser(UpdateUser request);
+
+    void deleteUser(String id);
 }

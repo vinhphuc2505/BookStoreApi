@@ -7,11 +7,9 @@ import com.example.bookstore.BookStore.dto.response.BorrowRecordResponse;
 import com.example.bookstore.BookStore.dto.response.UserResponse;
 import com.example.bookstore.BookStore.entity.Book;
 import com.example.bookstore.BookStore.entity.BorrowRecord;
-import com.example.bookstore.BookStore.entity.User;
 import com.example.bookstore.BookStore.exception.AppException;
 import com.example.bookstore.BookStore.exception.ErrorCode;
 import com.example.bookstore.BookStore.repository.BookRepository;
-import com.example.bookstore.BookStore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +20,6 @@ import java.util.List;
 @Component
 public class BorrowRecordMapper {
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private BookRepository bookRepository;
     @Autowired
     private UserMapper userMapper;
@@ -32,14 +28,11 @@ public class BorrowRecordMapper {
         if(request == null){
             return null;
         }
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         Book book = bookRepository.findById(request.getBookId())
                 .orElseThrow(() -> new AppException(ErrorCode.BOOK_NOT_EXISTED));
 
-
         BorrowRecord borrowRecord = new BorrowRecord();
-        borrowRecord.setUserId(user);
         borrowRecord.setBookId(book);
         borrowRecord.setReturnDate(request.getReturnDate());
 

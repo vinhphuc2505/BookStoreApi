@@ -45,23 +45,31 @@ public class UserController {
     }
 
     @GetMapping("/email/{email}")
-    public ApiResponse<UserResponse> findUserByName(@PathVariable("name") String email){
+    public ApiResponse<UserResponse> findUserByName(@PathVariable("email") String email){
         return ApiResponse.<UserResponse>builder()
                 .code(1000)
                 .result(userService.findUserByEmail(email))
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse<UserResponse> updateUser(@PathVariable("id") String id, UpdateUser request){
+    @GetMapping("/myInfo")
+    public ApiResponse<UserResponse> getMyInfo(){
         return ApiResponse.<UserResponse>builder()
                 .code(1000)
-                .result(userService.updateUser(id, request))
+                .result(userService.getMyInfo())
+                .build();
+    }
+
+    @PutMapping()
+    public ApiResponse<UserResponse> updateUser(@RequestBody @Valid  UpdateUser request){
+        return ApiResponse.<UserResponse>builder()
+                .code(1000)
+                .result(userService.updateUser(request))
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<String> deleteUser(@PathVariable("userId") String id){
+    public ApiResponse<String> deleteUser(@PathVariable("id") String id){
         userService.deleteUser(id);
         return ApiResponse.<String>builder()
                 .code(1000)
