@@ -24,12 +24,12 @@ public class BorrowRecord {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", nullable = false)
     @JsonManagedReference
-    private User userId;
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bookId", nullable = false)
     @JsonManagedReference
-    private Book bookId;
+    private Book book;
 
     @Column(name = "borrowDate", nullable = false)
     private LocalDate borrowDate = LocalDate.now();

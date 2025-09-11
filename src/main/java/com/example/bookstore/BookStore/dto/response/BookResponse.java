@@ -13,5 +13,5 @@ public class BookResponse {
 
     private boolean isAvailable = true;
 
-    private AuthorResponse authorId;
+    private AuthorResponse author;
 }

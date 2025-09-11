@@ -48,7 +48,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        if(borrowRecordRepository.existsByUserIdAndBookId(user, book)){
+        if(borrowRecordRepository.existsByUserAndBook(user, book)){
             throw new AppException(ErrorCode.YOU_HAVE_BORROWED);
         }
 
@@ -65,7 +65,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
         bookRepository.save(book);
 
         BorrowRecord borrowRecord = borrowRecordMapper.toBorrowRecord(request);
-        borrowRecord.setUserId(user);
+        borrowRecord.setUser(user);
 
         borrowRecordRepository.save(borrowRecord);
 
@@ -84,11 +84,11 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return borrowRecordMapper.toborrowRecordResponseList(borrowRecordRepository.findAllByUserId(user));
+        return borrowRecordMapper.toborrowRecordResponseList(borrowRecordRepository.findAllByUser(user));
     }
 
     @Override
-    @PostAuthorize("returnObject.returnObject.userId.userId == authentication.name")
+    @PostAuthorize("returnObject.user.userId == authentication.name")
     public BorrowRecordResponse findBorrowRecord(Long id) {
         return borrowRecordMapper.toBorrowRecordResponse(borrowRecordRepository
                 .findById(id).orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED)));
@@ -96,12 +96,12 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 
     @Override
     @Transactional
-    @PostAuthorize("returnObject.returnObject.userId.userId == authentication.name")
+    @PostAuthorize("returnObject.user.userId == authentication.name")
     public BorrowRecordResponse updateBorrowRecord(Long id, UpdateBorrowRecord request) {
         BorrowRecord borrowRecord = borrowRecordRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED));
 
-        Book book = borrowRecord.getBookId();
+        Book book = borrowRecord.getBook();
         boolean currentReturned = borrowRecord.isReturned();
         boolean newReturned = request.isReturned();
         System.out.println(request.isReturned());
@@ -128,10 +128,16 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
     }
 
     @Override
-    @PostAuthorize("returnObject.returnObject.userId.userId == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteBorrowRecord(Long id) {
-        borrowRecordRepository.findById(id)
+        BorrowRecord borrowRecord = borrowRecordRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BORROW_RECORD_NOT_EXISTED));
+
+        var returned = borrowRecord.isReturned();
+        if (!returned){
+            throw new AppException(ErrorCode.IS_RETURNED);
+        }
+
         borrowRecordRepository.deleteById(id);
     }
 }

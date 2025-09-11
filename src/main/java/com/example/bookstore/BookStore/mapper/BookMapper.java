@@ -34,7 +34,7 @@ public class BookMapper {
             book.setTitle(request.getTitle());
             book.setQuantity(request.getQuantity());
             book.setPublishedDate(request.getPublishedDate());
-            book.setAuthorId(author);
+            book.setAuthor(author);
             return book;
         }
         return null;
@@ -45,7 +45,7 @@ public class BookMapper {
             return null;
         }
         // Lấy thông tin tác giả từ đối tượng Book
-        Author author = request.getAuthorId();
+        Author author = request.getAuthor();
 
         // Ánh xạ thông tin tác giả sang AuthorResponse
         AuthorResponse authorResponse = authorMapper.toAuthorResponse(author);
@@ -56,7 +56,7 @@ public class BookMapper {
         bookResponse.setPublishedDate(request.getPublishedDate());
         bookResponse.setAvailable(request.isAvailable());
         // Gán thông tin tác giả vào BookResponse
-        bookResponse.setAuthorId(authorResponse);
+        bookResponse.setAuthor(authorResponse);
 
         return bookResponse;
     }
@@ -86,7 +86,7 @@ public class BookMapper {
         if (request.getAuthorId() != null) {
             Author author = authorRepository.findById(request.getAuthorId())
                     .orElseThrow(() -> new RuntimeException("Author id is invalid"));
-            book.setAuthorId(author);
+            book.setAuthor(author);
         }
     }
 

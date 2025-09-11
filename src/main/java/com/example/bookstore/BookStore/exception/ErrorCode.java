@@ -21,7 +21,10 @@ public enum ErrorCode {
     YOU_HAVE_BORROWED(1012, "YOU_HAVE_BORROWED", "You have borrowed this book", HttpStatus.NOT_FOUND),
     CANNOT_CHANGE_STATUS(1013, "CANNOT_CHANGE_STATUS", "Can not change status", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1014, "UNCATEGORIZED_EXCEPTION", "Uncategorized error",  HttpStatus.ACCEPTED),
-    ROLE_NOT_EXISTED(5, "ROLE_NOT_EXISTED", "Role not existed",  HttpStatus.NOT_FOUND)
+    ROLE_NOT_EXISTED(1015, "ROLE_NOT_EXISTED", "Role not existed",  HttpStatus.NOT_FOUND),
+    IS_RETURNED(1016, "IS_RETURNED", "You have not returned the book can not be deleted",  HttpStatus.BAD_REQUEST),
+    IS_NOT_PERMISSION(1017, "IS_NOT_PERMISSION", "You do not have access",  HttpStatus.UNAUTHORIZED),
+
     ;
 
     ErrorCode(int code, String errorCode, String message, HttpStatus httpStatus) {

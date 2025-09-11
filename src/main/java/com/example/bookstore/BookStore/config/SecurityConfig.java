@@ -1,10 +1,7 @@
 package com.example.bookstore.BookStore.config;
 
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,16 +22,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
+@EnableMethodSecurity
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
-@OpenAPIDefinition
-@SecurityScheme(
-        name = "bearerAuth",
-        type = SecuritySchemeType.HTTP,
-        scheme = "bearer",
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
-)
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS_GET = {"/author", "/author/**", "/book", "/book/**"};
 

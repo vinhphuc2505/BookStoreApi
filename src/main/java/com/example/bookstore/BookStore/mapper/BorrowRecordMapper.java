@@ -33,7 +33,7 @@ public class BorrowRecordMapper {
                 .orElseThrow(() -> new AppException(ErrorCode.BOOK_NOT_EXISTED));
 
         BorrowRecord borrowRecord = new BorrowRecord();
-        borrowRecord.setBookId(book);
+        borrowRecord.setBook(book);
         borrowRecord.setReturnDate(request.getReturnDate());
 
         return borrowRecord;
@@ -44,12 +44,12 @@ public class BorrowRecordMapper {
             return null;
         }
 
-        UserResponse userResponse = userMapper.toUserResponse(request.getUserId());
+        UserResponse userResponse = userMapper.toUserResponse(request.getUser());
 
         BorrowRecordResponse borrowRecordResponse = new BorrowRecordResponse();
 
         borrowRecordResponse.setUser(userResponse);
-        borrowRecordResponse.setBook(request.getBookId());
+        borrowRecordResponse.setBook(request.getBook());
         borrowRecordResponse.setBorrowDate(request.getBorrowDate());
         borrowRecordResponse.setReturnDate(request.getReturnDate());
         borrowRecordResponse.setReturned(request.isReturned());

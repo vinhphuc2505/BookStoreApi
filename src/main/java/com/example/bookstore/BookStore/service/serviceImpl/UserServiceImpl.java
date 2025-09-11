@@ -55,9 +55,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Authorities: " + auth.getAuthorities());
-        System.out.println("Principal: " + auth.getPrincipal());
         return userMapper.userResponseList(userRepository.findAll());
     }
 

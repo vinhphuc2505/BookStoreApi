@@ -2,7 +2,9 @@ package com.example.bookstore.BookStore.exception;
 
 
 import com.example.bookstore.BookStore.dto.response.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,7 +33,6 @@ public class GlobalExceptionHandler {
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setErrorCode(errorCode.getErrorCode());
         apiResponse.setMessage(errorCode.getMessage());
-        apiResponse.setHttpStatus(errorCode.getHttpStatus());
 
         return ResponseEntity.badRequest().body(apiResponse);
     }
@@ -53,4 +54,16 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(apiResponse);
     }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ApiResponse> handlerAccessDeniedException(AccessDeniedException exception) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.IS_NOT_PERMISSION.getCode());
+        apiResponse.setErrorCode(ErrorCode.IS_NOT_PERMISSION.getErrorCode());
+        apiResponse.setMessage(ErrorCode.IS_NOT_PERMISSION.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiResponse);
+    }
+
+
 }

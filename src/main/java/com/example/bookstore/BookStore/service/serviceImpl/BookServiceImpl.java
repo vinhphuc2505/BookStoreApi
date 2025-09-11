@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
     public BookResponse create(CreateBook request) {
         Author author = authorRepository.findById(request.getAuthorId())
                 .orElseThrow(() -> new AppException(ErrorCode.AUTHOR_NOT_EXISTED));
-        if(bookRepository.existsByTitleAndAuthorId(request.getTitle(), author)){
+        if(bookRepository.existsByTitleAndAuthor(request.getTitle(), author)){
             throw new AppException(ErrorCode.BOOK_EXISTED);
         }
         Book book = bookMapper.toBook(request);

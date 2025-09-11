@@ -52,7 +52,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    private ApiResponse<String> delete(@PathVariable("bookId") Long id){
+    private ApiResponse<String> delete(@PathVariable("id") Long id){
         bookService.deleteBook(id);
         return ApiResponse.<String>builder()
                 .code(1000)
